@@ -24,8 +24,8 @@ contract("Manager Hash Table", async accounts => {
         // send and retrieve hash
         await manager.addHash(name, hash);
         let hashTest = await manager.getHash(name);
-        
-        assert.equal(hash, '0x' + hashTest.toString(16));
+
+        assert.equal(hash, '0x' + hashTest[0].toString(16));
     });
 
     // error if entry already exists
@@ -73,6 +73,32 @@ contract("Manager Hash Table", async accounts => {
         
         // assert that that hash no longer exists
         await truffleAssert.reverts(manager.getHash(name));
+    });
+
+    // block timestamps are rising and are not 0
+    // WARNING MAY FAIL IF NETWORK IS UNDER ATTACK OR TO VARIOUS TIMING ATTACKS/SHENANIGANS!!!
+    it("Should store timestamp correctly and retrieve it", async () => {
+        // constants for testing
+        let hash = web3.utils.keccak256("file");
+        let name = "gilda";
+
+        // constants1 for testing
+        let hash1 = web3.utils.keccak256("file1");
+        let name1 = "gilda1";
+
+        // send and retrieve hash
+        await manager.addHash(name, hash);
+        let hashTest = await manager.getHash(name);
+
+        // send and retrieve hash1
+        await manager.addHash(name1, hash1);
+        let hashTest1 = await manager.getHash(name1);
+
+        // both timestamps are not 0
+        assert(hashTest[1] != 0 && hashTest1[1] != 0);
+        
+        // second timestamp is larger than first (or same if realy fast network)
+        assert(hashTest1[1] >= hashTest[1]);
     });
 
 });
