@@ -1,7 +1,7 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract Manager{
-    // TODO
+    // TODO add Block timestamp to entry
 
     // basic entry of hash table
     // has a name for UX, hash to store and owner that can do some managing
@@ -42,9 +42,19 @@ contract Manager{
         // make sure the entry exists
         require(!entryEqual(hashTable[keccak256(abi.encodePacked(msg.sender, name))], Entry("", 0, address(0))),
                  "this entry does not have a hash associated with it");
-        
+
         // return the hash, no need for name of msg.sender because it is called with them
         return hashTable[keccak256(abi.encodePacked(msg.sender, name))].hash;
+    }
+
+	// delete an entry
+    function deleteHash(string memory name) public {
+        // make sure the entry exists		
+		require(!entryEqual(hashTable[keccak256(abi.encodePacked(msg.sender, name))], Entry("", 0, address(0))),
+                 "this entry does not have a hash associated with it");
+
+		// delete the entry from storage
+		delete hashTable[keccak256(abi.encodePacked(msg.sender, name))];
     }
 
 }

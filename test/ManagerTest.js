@@ -42,8 +42,37 @@ contract("Manager Hash Table", async accounts => {
         await truffleAssert.reverts(manager.addHash(name, hash1));
     });
 
-    // it("Should add ", async () => {
+    // cant retrieve an empty entry
+    it("Should not retrieve empty entry", async () => {
+        // test require entry not to be empty
+        let name = "name";
 
-    // });
+        // getting an empty entry should throw
+        await truffleAssert.reverts(manager.getHash(name));
+    });
+
+    // cant delete an empty entry (though it is already deleted/empty)
+    it("Should not delete empty entry", async () => {
+        // test require entry not to be empty
+        let name = "name";
+
+        // getting an empty entry should throw
+        await truffleAssert.reverts(manager.getHash(name));
+    });
+
+    // delete works properly
+    it("Should delete an entry", async () => {
+        let hash = web3.utils.keccak256("file");
+        let name = "gilda";
+
+        // send first hash
+        await manager.addHash(name, hash);
+
+        // delete the hash
+        await manager.deleteHash(name);
+        
+        // assert that that hash no longer exists
+        await truffleAssert.reverts(manager.getHash(name));
+    });
 
 });
