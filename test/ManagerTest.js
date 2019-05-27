@@ -42,4 +42,8 @@ contract("Manager Hash Table", async accounts => {
         await truffleAssert.reverts(manager.addHash(name, hash1));
     });
 
+    // it("Should add ", async () => {
+
+    // });
+
 });

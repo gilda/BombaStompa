@@ -1,26 +1,50 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract Manager{
-    // TODO figure out structs and struct mapping
+    // TODO
 
+    // basic entry of hash table
+    // has a name for UX, hash to store and owner that can do some managing
+    struct Entry{
+        string name;
+        uint256 hash;
+        address owner;
+    }
+
+    // manager of the entire contract system
     address public manager;
-    mapping (string => uint256) private hashTable;
 
+    // main hash table
+    mapping (bytes32 => Entry) private hashTable;
+
+    // constructor for the main contract
     constructor () public {
         // keep track of the main manager
         manager = msg.sender;
     }
 
+    // helper for checking if two entries are equal
+    function entryEqual(Entry memory a, Entry memory b) private pure returns (bool) {
+        return keccak256(abi.encodePacked(a.name, a.hash, a.owner)) == keccak256(abi.encodePacked(b.name, b.hash, b.owner));
+    }
+
     // add an entry to the hashTable
     function addHash(string memory name, uint256 h) public {
-        require(hashTable[name] == 0, "name already taken");
-        hashTable[name] = h;
+        // require the entry to be empty
+        require(entryEqual(hashTable[keccak256(abi.encodePacked(msg.sender, name))], Entry("", 0, address(0))), "name already taken");
+
+        // add the entry under the owner and name hash
+        hashTable[keccak256(abi.encodePacked(msg.sender, name))] = Entry(name, h, msg.sender);
     }
 
     // retrieve an entry from the hash Table
     function getHash(string memory name) public view returns (uint256) {
-        require(hashTable[name] != 0, "this entry does not have a hash associated with it");
-        return hashTable[name];
+        // make sure the entry exists
+        require(!entryEqual(hashTable[keccak256(abi.encodePacked(msg.sender, name))], Entry("", 0, address(0))),
+                 "this entry does not have a hash associated with it");
+        
+        // return the hash, no need for name of msg.sender because it is called with them
+        return hashTable[keccak256(abi.encodePacked(msg.sender, name))].hash;
     }
 
 }
