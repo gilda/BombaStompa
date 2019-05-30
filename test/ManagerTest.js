@@ -13,6 +13,7 @@ contract("Manager Hash Table", async accounts => {
         // get manager
         let address = await manager.manager();
         
+        // make sure the contract returns the same address
         assert.equal(address, accounts[0]);
     });
 
@@ -25,6 +26,7 @@ contract("Manager Hash Table", async accounts => {
         await manager.addHash(name, hash);
         let hashTest = await manager.getHash(name);
 
+        // make sure the hash retrieved is the same one that was sent
         assert.equal(hash, '0x' + hashTest[0].toString(16));
     });
 

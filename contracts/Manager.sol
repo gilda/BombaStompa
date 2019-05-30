@@ -13,15 +13,15 @@ contract Manager{
     }
 
     // manager of the entire contract system
-    address public manager;
+    address public owner;
 
     // main hash table
     mapping (bytes32 => Entry) private hashTable;
 
     // constructor for the main contract
     constructor () public {
-        // keep track of the main manager
-        manager = msg.sender;
+        // keep track of the main owner
+        owner = msg.sender;
     }
 
     // helper for checking if two entries are equal
