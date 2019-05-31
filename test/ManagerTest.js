@@ -11,7 +11,7 @@ contract("Manager Hash Table", async accounts => {
     
     it("Should assign manager address at constructor", async () => {        
         // get manager
-        let address = await manager.manager();
+        let address = await manager.owner();
         
         // make sure the contract returns the same address
         assert.equal(address, accounts[0]);
