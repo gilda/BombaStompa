@@ -49,7 +49,6 @@ App = {
 		// get the parameters from the document
 		hToAdd = document.getElementById("addHashHash").value;
 		nToAdd = document.getElementById("addHashName").value;
-		console.log(hToAdd + " " + nToAdd);
 		
 		// call the web3 function
 		// TODO handle errors
@@ -61,9 +60,27 @@ App = {
 			// TODO possibly display the hash to the user
 			else console.log("Transaction Hash: " + res);
 		});
-	}
+    },
+    
+    // gets the hash for a given name and displays it
+    getHash: async () => {
+        // getting the name to retrieve
+        nToGet = document.getElementById("getHashName").value;
 
-	// TODO getHash
+        // call to web3
+        managerInst.getHash(nToGet, async (err, res) => {
+            // returned error
+            if(err) console.error(err);
+
+            // no error; display the hash and timestamp
+            else{
+                // TODO timestamp to unix date and local time
+                document.getElementById("resHash").innerText = "The hash is: " + res[0] + ", the timestamp is: " + res[1];
+            }
+        });
+
+    },
+
 	// TODO deleteHash
 };
 
