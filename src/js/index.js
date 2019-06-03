@@ -51,14 +51,14 @@ App = {
 		nToAdd = document.getElementById("addHashName").value;
 		
 		// call the web3 function
-		// TODO handle errors
 		managerInst.addHash(nToAdd, hToAdd, async (err, res) => {
 			// if got error display and handle it
 			if(err) console.log(err);
 
 			// log the transaction hash
-			// TODO possibly display the hash to the user
-			else console.log("Transaction Hash: " + res);
+			else{
+                document.getElementById("addHash").innerText = "Transaction hash is: " + res;
+            };
 		});
     },
     

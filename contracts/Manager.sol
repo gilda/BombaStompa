@@ -1,7 +1,6 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 contract Manager{
-	// TODO add Block timestamp to entry
 
 	// basic entry of hash table
 	// has a name for UX, hash to store and owner that can do some managing, TIME!!!
