@@ -46,7 +46,8 @@ App = {
 
 	// function to add a hash to the timestamp services
 	addHash: async () => {
-		// get the parameters from the document
+        // get the parameters from the document
+        // TODO sanitize input
 		hToAdd = document.getElementById("addHashHash").value;
 		nToAdd = document.getElementById("addHashName").value;
 		
