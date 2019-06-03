@@ -16,7 +16,7 @@ App = {
 				window.ethereum.enable();
 				console.log("Web3 is MetaMask");
 			} catch(error){
-				console.error("User denied access to his account");
+				console.log("User denied access to his account");
 			}
 		}else if(window.web3){
 			// old dApp browser
@@ -54,7 +54,7 @@ App = {
 		// TODO handle errors
 		managerInst.addHash(nToAdd, hToAdd, async (err, res) => {
 			// if got error display and handle it
-			if(err) console.error(err);
+			if(err) console.log(err);
 
 			// log the transaction hash
 			// TODO possibly display the hash to the user
@@ -70,7 +70,7 @@ App = {
         // call to web3
         managerInst.getHash(nToGet, async (err, res) => {
             // returned error
-            if(err) console.error(err);
+            if(err) console.log(err);
 
             // no error; display the hash and timestamp
             else{
@@ -81,7 +81,23 @@ App = {
 
     },
 
-	// TODO deleteHash
+    // deletes the hash with the given name owned by the account
+    delHash: async () => {
+        // getting the hash to delete
+        nToDel = document.getElementById("delHashName").value;
+
+        // call to web3
+        managerInst.deleteHash(nToDel, async (err, res) => {
+            // display error
+            if(err) console.log(err);
+
+            // no error, reutrn the transaction hash
+            else{
+                // display the transaction hash
+                document.getElementById("delHash").innerText = "Transaction hash is: " + res;
+            }
+        });
+    }
 };
 
 // when the window hash loaded start the app

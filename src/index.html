@@ -20,11 +20,16 @@
             name for the hash to be retrieved:<br>
             <input type="text" name="name" id="getHashName"><br>
 			<br>
-			<button onclick="App.getHash()">get Hash and Timestamp!</button>
+            <button onclick="App.getHash()">get Hash and Timestamp!</button>
+            <p id="resHash"></p>
         </div>
         <br>
         <div>
-            <p id="resHash"></p>
+            name for the hash to be deleted:<br>
+            <input type="text" name="name" id="delHashName"><br>
+			<br>
+            <button onclick="App.delHash()">delete Hash and Timestamp!</button>
+            <p id="delHash"></p>
         </div>
     	</body>
 </html>
