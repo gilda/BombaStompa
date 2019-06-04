@@ -21,7 +21,7 @@
             name for the hash to be retrieved:<br>
             <input type="text" name="name" id="getHashName"><br>
 			<br>
-            <button onclick="App.getHash()">get Hash and Timestamp!</button>
+            <button onclick="App.getHash()">Get hash and Timestamp!</button>
             <p id="resHash"></p>
         </div>
         <br>
@@ -32,5 +32,7 @@
             <button onclick="App.delHash()">delete Hash and Timestamp!</button>
             <p id="delHash"></p>
         </div>
+        <p id="accountStatus"></p>
+        <button onclick="(async function(){if(window.ethereum) await window.ethereum.enable()})();">Enable MetaMask account</button>
     	</body>
 </html>

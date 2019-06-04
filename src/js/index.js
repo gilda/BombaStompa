@@ -6,14 +6,16 @@ App = {
 	managerInst: null,
 	
 	// get the web3 interface running!
-	// TODO handle accounts better
 	initWeb3: async () =>{
+        // manage the account status text every 500 mSec
+        setInterval(App.accStatus, 500);
+
 		if(window.ethereum){
 			// only on new versions of MetaMask
 			currentWeb3Provider = window.ethereum;
 			try{
 				// enable the account
-				window.ethereum.enable();
+				await window.ethereum.enable();
 				console.log("Web3 is MetaMask");
 			} catch(error){
 				console.log("User denied access to his account");
@@ -41,7 +43,7 @@ App = {
 		
 		// IMPORTANT!!! update the address of the contract
 		// TODO delegate to a file managed by nodejs
-		managerInst = manager.at("0x5A68Fa0930f90A5aa8E1048210CbBedd9A1B7b65");
+		managerInst = manager.at("0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D");
 	},
 
 	// function to add a hash to the timestamp services
@@ -98,10 +100,32 @@ App = {
                 document.getElementById("delHash").innerText = "Transaction hash is: " + res;
             }
         });
+    },
+
+    // manage the account status text
+    accStatus: async () => {
+        var status = "";
+        
+        // check if metamask is connected
+        if(currentWeb3Provider == window.ethereum){
+            // no accounts enabled
+            if(web3.eth.accounts.length == 0){
+                status = "connected to MetaMask, account not connected, press enable";
+            }else{
+                // account enabled, display its address
+                status = "connected to MetaMask account: " + web3.eth.accounts[0]; 
+            }
+        }else{
+            // MetaMask not connected, install or enable in chrome
+            status = "MetaMask not connected"
+        }
+
+        //display the current status
+        document.getElementById("accountStatus").innerText = status;
     }
 };
 
 // when the window hash loaded start the app
 window.onload = async () => {
-	App.initWeb3();
+    App.initWeb3();
 }
