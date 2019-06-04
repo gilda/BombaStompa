@@ -42,7 +42,7 @@ App = {
 		manager = web3.eth.contract(contractInfo[0].abi);
 		
 		// IMPORTANT!!! update the address of the contract
-		// TODO delegate to a file managed by nodejs
+        // TODO delegate to a file managed by nodejs with different networks
 		managerInst = manager.at("0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D");
 	},
 
@@ -77,8 +77,8 @@ App = {
 
             // no error; display the hash and timestamp
             else{
-                // TODO timestamp to unix date and local time
-                document.getElementById("resHash").innerText = "The hash is: " + res[0] + ", the timestamp is: " + res[1];
+                document.getElementById("resHash").innerText = "The hash is: " + res[0] + 
+                                                               ", the timestamp is: " + new Date(res[1] * 1000);
             }
         });
 
