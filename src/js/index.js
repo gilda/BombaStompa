@@ -18,38 +18,44 @@ App = {
 			try{
 				// enable the account
 				await window.ethereum.enable();
-				console.log("Web3 is MetaMask");
 			} catch(error){
-				console.log("User denied access to his account");
+                console.error(error);
 			}
 		}else if(window.web3){
 			// old dApp browser
 			currentWeb3Provider = window.web3.currentWeb3Provider;
-			console.log("Web3 is generic web3");
 		}else{
 			// local RPC
 			currentWeb3Provider = Web3.providers.HttpProvider('http://localhost:7545');
-			console.log("Web3 is Ganache");
 		}
 		
 		// construct the main object to interact with ethtereum
 		web3 = new Web3(currentWeb3Provider);
         
         // initial check for account and network
-        App.accStatus();
-        App.netStatus();
+        await App.accStatus();
+        
+        // init the contract with network params
+        await App.netStatus();
 
-		// init the contract
-		return App.initContract();
+		return;
 	},
 
 	// get the contract interface up and running
-	initContract: async () => {
+	initContract: async (id) => {
 		manager = web3.eth.contract(contractInfo[0].abi);
-		
-		// IMPORTANT!!! update the address of the contract
-        // TODO delegate to a file managed by nodejs with different networks
-		managerInst = manager.at("0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D");
+
+        // IMPORTANT!!! update the address of the contract
+        contractAddresses = {mainnet: "", ropsten: "", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
+        
+        let address;
+        if(id == 1) address = contractAddresses.mainnet;
+        if(id == 3) address = contractAddresses.ropsten;
+        if(id == 5777) address = contractAddresses.ganache;
+
+        // initiate the contract with the current address
+        managerInst = manager.at(address);
+        return address;
 	},
 
 	// function to add a hash to the timestamp services
@@ -144,11 +150,23 @@ App = {
             if(err) console.error(err);
 
             // mainnet
-            else if(res == 1) document.getElementById("netStatus").innerText = "Connected to Mainnet";
+            else if(res == 1){
+                document.getElementById("netStatus").innerText = "Connected to Mainnet";
+            }
             // ropsten
-            else if(res == 3) document.getElementById("netStatus").innerText = "Connected to Ropsten";
+            else if(res == 3){
+                document.getElementById("netStatus").innerText = "Connected to Ropsten";
+            }
             // ganache
-            else if(res == 5777) document.getElementById("netStatus").innerText = "Connected to Ganache";
+            else if(res == 5777){
+                document.getElementById("netStatus").innerText = "Connected to Ganache";
+            }
+
+            // init the contract abi and address into web3 object
+            address = await App.initContract(res);
+
+            // notify user of contract address status
+            if(address.length == 0) document.getElementById("netStatus").innerText = "No contract implementation on this network\nPlease change the MetaMask network";
         });
     }
 };
