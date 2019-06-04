@@ -1,39 +1,53 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Yo it's gilda</title>
+		<title>BombaStompa - a timestamping service :)</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<script src="abi.js"></script>
 		<script src="./js/index.js"></script>
 	</head>
 	<body>
-		<p>fill in this form to submit a timestamp!</p>
-		<div>
-			hash to be timestamped:<br>
-			<input type="text" name="hash" id="addHashHash"><br>        
-			name for the timestamp<br>
-			<input type="text" name="name" id="addHashName"><br>
-			<br>
-            <button onclick="App.addHash()">Submit Hash!</button>
-            <p id="addHash"></p>
-        </div>
-        <br>
-        <div>
-            name for the hash to be retrieved:<br>
-            <input type="text" name="name" id="getHashName"><br>
-			<br>
-            <button onclick="App.getHash()">Get hash and Timestamp!</button>
-            <p id="resHash"></p>
-        </div>
-        <br>
-        <div>
-            name for the hash to be deleted:<br>
-            <input type="text" name="name" id="delHashName"><br>
-			<br>
-            <button onclick="App.delHash()">delete Hash and Timestamp!</button>
-            <p id="delHash"></p>
-        </div>
-        <p id="accountStatus"></p>
-        <p id="netStatus"></p>
-        <button onclick="(async function(){if(window.ethereum) await window.ethereum.enable()})();">Enable MetaMask account</button>
-    	</body>
+		<div class="container">
+			<div style="text-align: center">
+				<p>fill in this form to submit a timestamp!</p>
+			</div>
+			<div class="row" style="text-align: center">
+				<div class="form-group col" style="text-align: center">
+					hash to be timestamped:<br>
+					<input type="text" name="hash" id="addHashHash"><br>        
+					name for the timestamp<br>
+					<input type="text" name="name" id="addHashName"><br>
+					<br>
+					<button onclick="App.addHash()">Submit Hash!</button>
+					<p id="addHash"></p>
+				</div>
+				<br>
+				<div class="form-group col" style="text-align: center">
+					name for the hash to be retrieved:<br>
+					<input type="text" name="name" id="getHashName"><br>
+					<br>
+					<button onclick="App.getHash()">Get hash and timestamp!</button>
+					<p id="resHash"></p>
+				</div>
+				<br>
+				<div class="form-group col" style="text-align: center">
+					name for the hash to be deleted:<br>
+					<input type="text" name="name" id="delHashName"><br>
+					<br>
+					<button onclick="App.delHash()">delete hash and timestamp!</button>
+					<p id="delHash"></p>
+				</div>
+			</div>
+			<div style="text-align: center">
+				<p id="accountStatus"></p>
+				<br>
+				<p id="netStatus"></p>
+				<button style="text-align: center" onclick="(async function(){if(window.ethereum) await window.ethereum.enable()})();">Enable MetaMask account</button>
+			</div>
+		</div>
+		
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</body>
 </html>
