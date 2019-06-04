@@ -9,6 +9,8 @@ App = {
 	initWeb3: async () =>{
         // manage the account status text every 500 mSec
         setInterval(App.accStatus, 500);
+        // manage the network status text every 2000 mSec
+        setInterval(App.netStatus, 2000);
 
 		if(window.ethereum){
 			// only on new versions of MetaMask
@@ -32,6 +34,10 @@ App = {
 		
 		// construct the main object to interact with ethtereum
 		web3 = new Web3(currentWeb3Provider);
+        
+        // initial check for account and network
+        App.accStatus();
+        App.netStatus();
 
 		// init the contract
 		return App.initContract();
@@ -49,9 +55,16 @@ App = {
 	// function to add a hash to the timestamp services
 	addHash: async () => {
         // get the parameters from the document
-        // TODO sanitize input
 		hToAdd = document.getElementById("addHashHash").value;
-		nToAdd = document.getElementById("addHashName").value;
+        
+        // check that it is a valid hash
+        if(!(/0x[0-9A-Fa-f]{64}/g).test(hToAdd)){
+            document.getElementById("addHashHash").value = "this is not a valid hash!!!";
+            return;
+        }
+
+        // no checks needed for string 
+        nToAdd = document.getElementById("addHashName").value;
 		
 		// call the web3 function
 		managerInst.addHash(nToAdd, hToAdd, async (err, res) => {
@@ -105,6 +118,7 @@ App = {
     // manage the account status text
     accStatus: async () => {
         var status = "";
+        var netStatus = "";
         
         // check if metamask is connected
         if(currentWeb3Provider == window.ethereum){
@@ -122,6 +136,20 @@ App = {
 
         //display the current status
         document.getElementById("accountStatus").innerText = status;
+    },
+    
+    // manage the netowrk status text
+    netStatus: async () => {
+        web3.version.getNetwork(async (err, res) => {
+            if(err) console.error(err);
+
+            // mainnet
+            else if(res == 1) document.getElementById("netStatus").innerText = "Connected to Mainnet";
+            // ropsten
+            else if(res == 3) document.getElementById("netStatus").innerText = "Connected to Ropsten";
+            // ganache
+            else if(res == 5777) document.getElementById("netStatus").innerText = "Connected to Ganache";
+        });
     }
 };
 
