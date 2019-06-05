@@ -61,8 +61,13 @@ App = {
 
 	// function to add a hash to the timestamp services
 	addHash: async () => {
+        // TODO blink or alert user of insufficient data to call web3 function
+        // make sure the contract is implemented in this network
+        if(managerInst.address == "") return;
+
         // get the parameters from the document
-		hToAdd = document.getElementById("addHashHash").value;
+        hToAdd = document.getElementById("addHashHash").value;
+        if(hToAdd == "") return;
         
         // check that it is a valid hash
         if(!(/0x[0-9A-Fa-f]{64}/g).test(hToAdd)){
@@ -72,7 +77,8 @@ App = {
 
         // no checks needed for string 
         nToAdd = document.getElementById("addHashName").value;
-		
+        if(nToAdd == "") return;
+        
 		// call the web3 function
 		managerInst.addHash(nToAdd, hToAdd, async (err, res) => {
 			// if got error display and handle it
@@ -89,6 +95,7 @@ App = {
     getHash: async () => {
         // getting the name to retrieve
         nToGet = document.getElementById("getHashName").value;
+        if(nToGet == "") return;
 
         // call to web3
         managerInst.getHash(nToGet, async (err, res) => {
@@ -106,8 +113,12 @@ App = {
 
     // deletes the hash with the given name owned by the account
     delHash: async () => {
+        // make sure the contract is implemented in this network
+        if(managerInst.address == "") return;
+
         // getting the hash to delete
         nToDel = document.getElementById("delHashName").value;
+        if(nToDel == "") return;
 
         // call to web3
         managerInst.deleteHash(nToDel, async (err, res) => {
