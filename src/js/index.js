@@ -3,7 +3,8 @@ App = {
 	// the web3 library providor (mostly MetaMask)
 	currentWeb3Provider: null,
 	manager: null,
-	managerInst: null,
+    managerInst: null,
+    networkName: null,
 	
 	// get the web3 interface running!
 	initWeb3: async () =>{
@@ -151,22 +152,23 @@ App = {
 
             // mainnet
             else if(res == 1){
-                document.getElementById("netStatus").innerText = "Connected to Mainnet";
+                networkName = "Mainnet";
             }
             // ropsten
             else if(res == 3){
-                document.getElementById("netStatus").innerText = "Connected to Ropsten";
+                networkName = "Ropsten";
             }
             // ganache
             else if(res == 5777){
-                document.getElementById("netStatus").innerText = "Connected to Ganache";
+                networkName = "Ganache";
             }
 
             // init the contract abi and address into web3 object
             address = await App.initContract(res);
 
             // notify user of contract address status
-            if(address.length == 0) document.getElementById("netStatus").innerText = "No contract implementation on this network\nPlease change the MetaMask network";
+            if(address.length == 0) document.getElementById("netStatus").innerText = "No contract implementation on this network (" + networkName + ")\nPlease change the MetaMask network";
+            else document.getElementById("netStatus").innerText = "Connected to " + networkName;
         });
     }
 };
