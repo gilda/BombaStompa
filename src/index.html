@@ -12,14 +12,15 @@
 				<p>fill in this form to submit a timestamp!</p>
 			</div>
             
-            <div class="row" style="text-align: center;" >
-				<div class="col form-group" style="text-align: center">
+            <div class="form-row" style="text-align: center;" >
+                <div class="col form-group" style="text-align: center">
 					hash to be timestamped:<br>
 					<input type="text" name="hash" id="addHashHash" autocomplete="off"><br>        
 					name for the timestamp<br>
 					<input type="text" name="name" id="addHashName" autocomplete="off"><br>
 					<br>
 					<button onclick="App.addHash()">Submit Hash!</button>
+                    <div id="addHashAlert"></div>
 					<p id="addHash"></p>
 				</div>
 
@@ -27,7 +28,8 @@
 					name for the hash to be retrieved:<br>
 					<input type="text" name="name" id="getHashName" autocomplete="off"><br>
 					<br>
-					<button onclick="App.getHash()">Get hash and timestamp!</button>
+                    <button onclick="App.getHash()">Get hash and timestamp!</button>
+                    <div id="getHashAlert"></div>
 					<p id="resHash"></p>
 				</div>
 
@@ -35,7 +37,8 @@
 					name for the hash to be deleted:<br>
 					<input type="text" name="name" id="delHashName" autocomplete="off"><br>
 					<br>
-					<button onclick="App.delHash()">delete hash and timestamp!</button>
+                    <button onclick="App.delHash()">delete hash and timestamp!</button>
+                    <div id="delHashAlert"></div>
 					<p id="delHash"></p>
 				</div>
 			</div>
@@ -47,7 +50,7 @@
 			</div>
 		</div>
 		
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	</body>

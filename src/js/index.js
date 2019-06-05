@@ -61,13 +61,35 @@ App = {
 
 	// function to add a hash to the timestamp services
 	addHash: async () => {
-        // TODO blink or alert user of insufficient data to call web3 function
         // make sure the contract is implemented in this network
-        if(managerInst.address == "") return;
+        if(managerInst.address == "") {
+            // alert the user
+            document.getElementById("addHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>No contract implementation on this network (" + networkName + ")</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);
+            return;
+        }
 
         // get the parameters from the document
         hToAdd = document.getElementById("addHashHash").value;
-        if(hToAdd == "") return;
+        if(hToAdd == ""){
+            document.getElementById("addHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>A hash to submit is required!</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);
+            return;
+        }
         
         // check that it is a valid hash
         if(!(/0x[0-9A-Fa-f]{64}/g).test(hToAdd)){
@@ -77,8 +99,19 @@ App = {
 
         // no checks needed for string 
         nToAdd = document.getElementById("addHashName").value;
-        if(nToAdd == "") return;
-        
+        if(nToAdd == ""){
+            document.getElementById("addHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>A name for the submission is required!</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);
+            return;
+        } 
+
 		// call the web3 function
 		managerInst.addHash(nToAdd, hToAdd, async (err, res) => {
 			// if got error display and handle it
@@ -93,9 +126,36 @@ App = {
     
     // gets the hash for a given name and displays it
     getHash: async () => {
+        // make sure the contract is implemented in this network
+        if(managerInst.address == "") {
+            // alert the user
+            document.getElementById("getHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>No contract implementation on this network (" + networkName + ")</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);            
+            return;
+        }
+
         // getting the name to retrieve
         nToGet = document.getElementById("getHashName").value;
-        if(nToGet == "") return;
+        
+        if(nToGet == ""){
+            document.getElementById("getHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>A name to retrieve the submission is required!</div>";
+
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);            
+            return;
+        }
 
         // call to web3
         managerInst.getHash(nToGet, async (err, res) => {
@@ -114,11 +174,34 @@ App = {
     // deletes the hash with the given name owned by the account
     delHash: async () => {
         // make sure the contract is implemented in this network
-        if(managerInst.address == "") return;
+        if(managerInst.address == "") {
+            // alert the user
+            document.getElementById("delHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>No contract implementation on this network (" + networkName + ")</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);
+            return;
+        }
 
         // getting the hash to delete
         nToDel = document.getElementById("delHashName").value;
-        if(nToDel == "") return;
+        if(nToDel == ""){
+            document.getElementById("delHashAlert").innerHTML = 
+            "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>A name to delete the submission is required!</div>";
+            
+            // nice fade in animation to alerts
+            window.setTimeout(() => {
+                $(".alert").fadeTo(500, 0).slideUp(500, () => {
+                    $(this).remove(); 
+                });
+            }, 4000);            
+            return;
+        }
 
         // call to web3
         managerInst.deleteHash(nToDel, async (err, res) => {
