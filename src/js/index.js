@@ -47,7 +47,7 @@ App = {
 		manager = web3.eth.contract(contractInfo[0].abi);
 
         // IMPORTANT!!! update the address of the contract
-        contractAddresses = {mainnet: "", ropsten: "", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
+        contractAddresses = {mainnet: "", ropsten: "0x78cc922765c30164be0f53177d93e6d7e13d40ca", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
         
         let address;
         if(id == 1) address = contractAddresses.mainnet;
@@ -164,7 +164,21 @@ App = {
 
             // no error; display the hash and timestamp
             else{
-                document.getElementById("resHash").innerText = "The hash is: " + res[0] + 
+                // num to hex
+                var h = "0x";
+                for(i = 0; i < 64-res[0].toString(16).length; i++){
+                    h += "0"
+                }
+
+                // handle this thing github.com/ethereum/web3.js/issues/1903
+                if(h + res[0].toString(16) == "0x08c379a000000000000000000000000000000000000000000000000000000000"){
+                    document.getElementById("getHashAlert").innerHTML = 
+                    "<div class='alert alert-danger'><a class='close' data-dismiss='alert'>X</a>This entry does not exist</div>";
+                    return;
+                }
+
+                // did not revert
+                document.getElementById("resHash").innerText = "The hash is: " + h + res[0].toString(16) + 
                                                                ", the timestamp is: " + new Date(res[1] * 1000);
             }
         });
