@@ -6,7 +6,7 @@ const contractInfo = require(__dirname + "/../" + "../build/contracts/Manager.js
 // get the private key
 const PrivateKeyProvider = require("truffle-privatekey-provider");
 const privateKey = "";
-const provider = new PrivateKeyProvider(privateKey, 'https://ropsten.infura.io/');
+const provider = new PrivateKeyProvider(privateKey, 'https://mainnet.infura.io/');
 
 const web3 = new Web3(provider);
 
@@ -18,7 +18,10 @@ const deploy = async () => {
 
     const result = await new web3.eth.Contract(contractInfo.abi)
     .deploy({ data: contractInfo.bytecode })
-    .send({ gas: '1500000', gasPrice: 100000000000 , from: accounts[0]});
+    .send({ gas: 3000000, gasPrice: 2000000000 , from: accounts[0]}, async (err, res) => {
+        if(err) console.error(err);
+        else console.log(res);
+    });
 
     //This will display the address to which your contract was deployed
     console.log('Contract deployed to: ', result.options.address);

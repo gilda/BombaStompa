@@ -47,7 +47,7 @@ App = {
 		manager = web3.eth.contract(contractInfo[0].abi);
 
         // IMPORTANT!!! update the address of the contract
-        contractAddresses = {mainnet: "", ropsten: "0x78cc922765c30164be0f53177d93e6d7e13d40ca", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
+        contractAddresses = {mainnet: "0xffe0daa7b7abfaa8199f37884a07b9f486c31e11", ropsten: "0x78cc922765c30164be0f53177d93e6d7e13d40ca", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
         
         let address;
         if(id == 1) address = contractAddresses.mainnet;
