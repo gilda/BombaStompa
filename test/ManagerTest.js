@@ -107,7 +107,7 @@ contract("Manager Hash Table", async accounts => {
         const eth = 1000000000000000000;
         
         // send ether to contract
-        await web3.eth.sendTransaction({from: accounts[1], to: manager.address, amount: eth});
+        await web3.eth.sendTransaction({from: accounts[1], to: manager.address, value: eth});
         
         // redeem the donation
         await manager.redeemDonations();

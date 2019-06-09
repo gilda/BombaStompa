@@ -47,7 +47,7 @@ App = {
 		manager = web3.eth.contract(contractInfo[0].abi);
 
         // IMPORTANT!!! update the address of the contract
-        contractAddresses = {mainnet: "0xffe0daa7b7abfaa8199f37884a07b9f486c31e11", ropsten: "0x78cc922765c30164be0f53177d93e6d7e13d40ca", ganache: "0x3a5bB4ee427F4b5545E3d656B49910fC8af3Ac2D"};
+        contractAddresses = {mainnet: "0xe0e1d13c331768fc9925d12d28a42dc7be3c5ee8", ropsten: "0xbd4a3e9407caf470e8e71f81d597d3c0517ba24f", ganache: "0x61FE3D6a038FE192a38838EA8dea68bE6F201524"};
         
         let address;
         if(id == 1) address = contractAddresses.mainnet;
@@ -120,10 +120,23 @@ App = {
 			// log the transaction hash
 			else{
                 document.getElementById("addHash").innerText = "Transaction hash is: " + res;
+                
+                // check every second whether or not our transaction was mined
+                receiptInterval = setInterval(async() => {web3.eth.getTransactionReceipt(res, async (er, result) => {
+                    if(er) console.error(er)
+                    
+                    // got a receipt should check if it is null
+                    else{
+                        if(result != null){
+                            document.getElementById("addHash").innerText += "\nTransaction confirmed!\n block: " + result.blockHash;
+                            
+                            // clear the checking interval
+                            clearInterval(receiptInterval);
+                        }
+                    }
+                })}, 1000);
             };
-		}).on("reciept", async () => {
-            document.getElementById("addHash").innerText += "\n Transaction confirmed!"
-        });
+		});
     },
     
     // gets the hash for a given name and displays it
@@ -183,8 +196,6 @@ App = {
                 document.getElementById("resHash").innerText = "The hash is: " + h + res[0].toString(16) + 
                                                                ", the timestamp is: " + new Date(res[1] * 1000);
             }
-        }).on("reciept", async () => {
-            document.getElementById("getHash").innerText += "\n Transaction confirmed!"
         });
 
     },
@@ -230,9 +241,22 @@ App = {
             else{
                 // display the transaction hash
                 document.getElementById("delHash").innerText = "Transaction hash is: " + res;
+                
+                // check every second whether or not our transaction was mined                
+                receiptInterval = setInterval(async() => {web3.eth.getTransactionReceipt(res, async (er, result) => {
+                    if(er) console.error(er)
+                    
+                    // got a receipt should check if it is null
+                    else{
+                        if(result != null){
+                            document.getElementById("delHash").innerText += "\nTransaction confirmed!\n block: " + result.blockHash;
+                            
+                            // clear the checking interval                            
+                            clearInterval(receiptInterval);
+                        }
+                    }
+                })}, 1000)
             }
-        }).on("reciept", async () => {
-            document.getElementById("delHash").innerText += "\n Transaction confirmed!"
         });
     },
 
@@ -282,7 +306,30 @@ App = {
 
             // notify user of contract address status
             if(address.length == 0) document.getElementById("netStatus").innerText = "No contract implementation on this network (" + networkName + ")\nPlease change the MetaMask network";
-            else document.getElementById("netStatus").innerText = "Connected to " + networkName;
+            else document.getElementById("netStatus").innerText = "Connected to " + networkName + "\ncontract address is: " + address;
+        });
+    },
+
+    donate: async () => {
+        amount = document.getElementById("donAmount").value;
+        
+        // send raw ether with a bit more gas
+        web3.eth.sendTransaction({from: web3.eth.accounts[0], to: managerInst.address, value: web3.toWei(amount, "ether"), gas: 30000}, async (err, res) => {
+            if(err) console.error(error)
+            // check every second whether or not our transaction was mined
+            receiptInterval = setInterval(async() => {web3.eth.getTransactionReceipt(res, async (er, result) => {
+                if(er) console.error(er)
+
+                // got a receipt should check if it is null
+                else{
+                    if(result != null){
+                        document.getElementById("donAmountStatus").innerText += "\nTransaction confirmed!\n block: " + result.blockHash + "\nThank you for donating!!! <3";
+                       
+                        // clear the checking interval
+                        clearInterval(receiptInterval);
+                    }
+                }
+            })}, 1000)
         });
     }
 };

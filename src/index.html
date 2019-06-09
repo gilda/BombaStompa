@@ -47,7 +47,13 @@
 				<p id="accountStatus"></p>
 				<p id="netStatus"></p>
 				<button style="text-align: center" onclick="(async function(){if(window.ethereum) await window.ethereum.enable()})();">Enable MetaMask account</button>
-			</div>
+            </div>
+            <div class="row-fluid" style="text-align: center; position: relative;">
+                <input type="number" name="amount" id="donAmount"> Eth
+                <br>
+                <p id="donAmountStatus"></p>
+                <button style="text-align: center" onclick="App.donate()">Donate!</button>
+            </div>
 		</div>
 		
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
