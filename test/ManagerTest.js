@@ -101,6 +101,16 @@ contract("Manager Hash Table", async accounts => {
 		
 		// second timestamp is larger than first (or same if realy fast network)
 		assert(hashTest1[1] >= hashTest[1]);
-	});
+    });
+    
+    it("Should send donation and reteive it", async () => {
+        const eth = 1000000000000000000;
+        
+        // send ether to contract
+        await web3.eth.sendTransaction({from: accounts[1], to: manager.address, amount: eth});
+        
+        // redeem the donation
+        await manager.redeemDonations();
+    });
 
 });

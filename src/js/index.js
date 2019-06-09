@@ -121,7 +121,9 @@ App = {
 			else{
                 document.getElementById("addHash").innerText = "Transaction hash is: " + res;
             };
-		});
+		}).on("reciept", async () => {
+            document.getElementById("addHash").innerText += "\n Transaction confirmed!"
+        });
     },
     
     // gets the hash for a given name and displays it
@@ -181,6 +183,8 @@ App = {
                 document.getElementById("resHash").innerText = "The hash is: " + h + res[0].toString(16) + 
                                                                ", the timestamp is: " + new Date(res[1] * 1000);
             }
+        }).on("reciept", async () => {
+            document.getElementById("getHash").innerText += "\n Transaction confirmed!"
         });
 
     },
@@ -227,6 +231,8 @@ App = {
                 // display the transaction hash
                 document.getElementById("delHash").innerText = "Transaction hash is: " + res;
             }
+        }).on("reciept", async () => {
+            document.getElementById("delHash").innerText += "\n Transaction confirmed!"
         });
     },
 

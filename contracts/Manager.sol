@@ -11,6 +11,9 @@ contract Manager{
 		uint256 time;
 	}
 
+    // fallback function for the use of recieving donations
+    function () external payable {}
+
 	// manager of the entire contract system
 	address public owner;
 
@@ -22,6 +25,12 @@ contract Manager{
 		// keep track of the main owner
 		owner = msg.sender;
 	}
+
+    // redeem donations
+    function redeemDonations() external {
+        require(msg.sender == owner);
+        msg.sender.transfer(address(this).balance);
+    }
 
 	// helper for checking if two entries are equal
 	function entryEqual(Entry memory a, Entry memory b) private pure returns (bool) {
